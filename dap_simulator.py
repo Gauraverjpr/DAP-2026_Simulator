@@ -587,7 +587,7 @@ if submitted:
             # Sports A Dynamic Fallback Warning
             if sports_a_triggered:
                 sports_a_msg_en = f"**Note:** Priority-Sports A is capped at 5% of total intake seats. If candidate does not secure a Sports A seat, he/she will fall back to **Priority: {tier_str}** with an Effective Academic Score of {effective_score:.2f}."
-                sports_a_msg_hi = f"**नोट:** प्राथमिकता-Sports A कुल सीटों के 5% तक ही सीमित है। यदि अभ्यर्थी Sports A सीट प्राप्त नहीं कर पाता है, तो वह **Priority: {tier_str}** पर वापस आ जाएगा, जिसमें प्रभावी शैक्षणिक स्कोर {effective_score:.2f} होगा।"
+                sports_a_msg_hi = f"**नोट:** प्राथमिकता-Sports A कुल इन्टेक सीटों के 5% तक ही सीमित है। यदि अभ्यर्थी Sports A सीट प्राप्त नहीं कर पाता है, तो वह **Priority: {tier_str}** पर वापस आ जाएगा, जिसमें प्रभावी शैक्षणिक स्कोर {effective_score:.2f} होगा।"
                 st.info(sports_a_msg_hi if is_hindi else sports_a_msg_en)
 
             st.markdown(f"### {T['projected_lists_title']}")
