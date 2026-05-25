@@ -76,9 +76,9 @@ T = {
     "area": "Area Type" if not is_hindi else "क्षेत्र का प्रकार",
     "domicile": "1. Domicile State" if not is_hindi else "1. मूल निवास (Domicile)",
     "passed_raj": "2. Passed Qualifying Exam from a school in Rajasthan?" if not is_hindi else "2. क्या अर्हक परीक्षा राजस्थान के स्कूल से उत्तीर्ण की है?",
-    "govt_emp": "3. Dependent of Rajasthan State Govt Employee?" if not is_hindi else "3. क्या राजस्थान राज्य सरकार के कर्मचारी के आश्रित हैं?",
+    "govt_emp": "3. Dependent of Govt. of Rajasthan Employee?" if not is_hindi else "3. क्या राजस्थान सरकार के कर्मचारी के आश्रित हैं?",
     "psu_emp": "4. Dependent of Board/PSU/Central Govt posted in Rajasthan?" if not is_hindi else "4. क्या बोर्ड/पीएसयू/केंद्र सरकार (राजस्थान में पदस्थापित) के आश्रित हैं?",
-    "passed_bter": "5. Passed Diploma from BTER, Jodhpur?" if not is_hindi else "5. क्या BTER, जोधपुर से डिप्लोमा उत्तीर्ण किया है?",
+    "passed_bter": "5. Passed Diploma from Pravidhik Shiksha Mandal, Jodhpur?" if not is_hindi else "5. क्या प्राविधिक शिक्षा मंडल, जोधपुर से डिप्लोमा उत्तीर्ण किया है?",
     "passed_iti_raj": "6. Passed ITI from an institute in Rajasthan?" if not is_hindi else "6. क्या राजस्थान के संस्थान से ITI उत्तीर्ण किया है?",
     "priority_help": "Meeting ANY of the active conditions below grants Priority 1 status (State Merit Eligibility)." if not is_hindi else "नीचे दी गई किसी भी सक्रिय शर्त को पूरा करने पर प्राथमिकता 1 का दर्जा (राज्य मेरिट पात्रता) मिलता है।",
 
@@ -91,7 +91,7 @@ T = {
     "tfws_label": "Income < ₹8.00 Lakhs (TFWS)" if not is_hindi else "आय < ₹8.00 लाख (TFWS)",
     "tfws_help": "Determines eligibility for the Tuition Fee Waiver Scheme (TFWS)." if not is_hindi else "ट्यूशन फीस माफी योजना (TFWS) के लिए पात्रता निर्धारित करता है।",
     "km_label": "Kashmiri Migrant (KM)" if not is_hindi else "कश्मीरी प्रवासी (KM)",
-    "km_help": "5% additional supernumerary seats." if not is_hindi else "5% अतिरिक्त अधिसंख्य सीटें।",
+    "km_help": "5% additional supernumerary seats. Enforces Unreserved (GEN) base category." if not is_hindi else "5% अतिरिक्त अधिसंख्य सीटें। अनारक्षित (GEN) मूल श्रेणी लागू करता है।",
     "exs_label": "Ex-Servicemen (EXS)" if not is_hindi else "भूतपूर्व सैनिक (EXS)",
     "sports_label": "Valid Sports Quota" if not is_hindi else "वैध खेल कोटा (Sports Quota)",
     "sports_cat_label": "Sports Category" if not is_hindi else "खेल श्रेणी (Sports Category)",
@@ -109,7 +109,7 @@ T = {
 
     "priority_metric": "State Merit Priority Tier" if not is_hindi else "राज्य मेरिट प्राथमिकता स्तर",
     "matrix_metric": "Final Matrix Category" if not is_hindi else "अंतिम मैट्रिक्स श्रेणी",
-    "outofstate_delta": "Out-of-State Override" if not is_hindi else "आउट-ऑफ-स्टेट ओवरराइड",
+    "outofstate_delta": "Quota Override Applied" if not is_hindi else "कोटा ओवरराइड लागू",
 
     "p1_granted": "Priority 1: State Eligible" if not is_hindi else "प्राथमिकता 1: राज्य पात्र",
     "p2_granted": "Priority 2: Out-of-State / UR" if not is_hindi else "प्राथमिकता 2: आउट-ऑफ-स्टेट / UR",
@@ -410,14 +410,23 @@ with st.expander(T["step2_title"], expanded=True):
 
     st.markdown("---")
 
+    # --- PROACTIVE LOCKOUT UX TRIGGER ---
+    km_quota = st.checkbox(T["km_label"], help=T["km_help"])
+    is_locked_out = (domicile != "Rajasthan" or km_quota)
+    
+    if is_locked_out:
+        st.warning("⚠️ **Reservations Disabled:** Candidate is out-of-state or applying under Kashmiri Migrant quota." if not is_hindi else "⚠️ **आरक्षण अक्षम:** अभ्यर्थी आउट-ऑफ-स्टेट है या कश्मीरी प्रवासी कोटे के तहत आवेदन कर रहा है।")
+
+    st.markdown("---")
+
     c7, c8 = st.columns(2)
     with c7:
         sel_gender = st.selectbox(T["gender"], gender_options, help=T["gender_help"])
         gender = gender_map[sel_gender]
     with c8:
-        sel_category = st.selectbox(T["base_cat"], category_options)
+        sel_category = st.selectbox(T["base_cat"], category_options, disabled=is_locked_out)
         category = category_map[sel_category]
-        sel_area = st.selectbox(T["area"], area_options)
+        sel_area = st.selectbox(T["area"], area_options, disabled=is_locked_out)
         area = area_map[sel_area]
 
 with st.expander(T["step3_title"], expanded=False):
@@ -426,15 +435,17 @@ with st.expander(T["step3_title"], expanded=False):
 
     c9, c10 = st.columns(2)
     with c9:
-        pwd_quota = st.checkbox(T["pwd_label"], help=T["pwd_help"], disabled=fn_quota)
+        pwd_quota = st.checkbox(T["pwd_label"], help=T["pwd_help"], disabled=(fn_quota or is_locked_out))
+        # TFWS is the ONLY quota not affected by the state lockout
         income_less_8l = st.checkbox(T["tfws_label"], help=T["tfws_help"], disabled=fn_quota)
-        km_quota = st.checkbox(T["km_label"], help=T["km_help"], disabled=fn_quota)
+        
     with c10:
-        sel_exs = st.selectbox(T["exs_label"], exs_options, disabled=fn_quota)
+        sel_exs = st.selectbox(T["exs_label"], exs_options, disabled=(fn_quota or is_locked_out))
         exs_priority = sel_exs.split(" ")[0] if sel_exs != "None" and sel_exs != "कोई नहीं" else "None"
-        sports_quota = st.checkbox(T["sports_label"], disabled=fn_quota)
+        
+        sports_quota = st.checkbox(T["sports_label"], disabled=(fn_quota or is_locked_out))
         sel_sports_cat = st.selectbox(T["sports_cat_label"], sports_cat_options,
-                                      disabled=(not sports_quota or fn_quota))
+                                      disabled=(not sports_quota or fn_quota or is_locked_out))
         sports_cat = sel_sports_cat.split(" ")[
             0] if sel_sports_cat != "None" and sel_sports_cat != "कोई नहीं" else "None"
 
@@ -442,8 +453,8 @@ with st.expander(T["step3_title"], expanded=False):
     if gender in ["F", "Other", "F (महिला)", "Other (अन्य)"]:
         st.markdown("---")
         cf1, cf2 = st.columns(2)
-        with cf1: widow_quota = st.checkbox(T["widow_label"], disabled=fn_quota)
-        with cf2: single_woman_quota = st.checkbox(T["single_woman_label"], disabled=(widow_quota or fn_quota))
+        with cf1: widow_quota = st.checkbox(T["widow_label"], disabled=(fn_quota or is_locked_out))
+        with cf2: single_woman_quota = st.checkbox(T["single_woman_label"], disabled=(widow_quota or fn_quota or is_locked_out))
 
 st.markdown("<br>", unsafe_allow_html=True)
 _, submit_btn_col2, _ = st.columns([1, 1, 1])
@@ -466,18 +477,10 @@ if submitted:
     km_override_applied = False
     dom_override_applied = False
 
+    # 1. Apply Kashmiri Migrant Category Wipe (Does NOT kill Priority 1 if they earned it)
     if km_quota and not fn_quota:
-        is_priority_1 = False
         backend_category = "GEN"
         km_override_applied = True
-
-    # --- NEW RULE: RESERVATION NULLIFICATION FOR OUTSIDE RAJASTHAN ---
-    if domicile != "Rajasthan" and not km_override_applied:
-        if backend_category != "GEN":
-            backend_category = "GEN"
-            dom_override_applied = True # Flags the UI to show the "Out-of-State Override" warning
-        
-        # Nullify all horizontal quotas (TFWS is unaffected as it is handled separately)
         pwd_quota = False
         exs_priority = "None"
         area = "Non-TSP"
@@ -485,8 +488,21 @@ if submitted:
         widow_quota = False
         single_woman_quota = False
 
-    # Fallback for candidates who fail Priority 1 entirely (Priority 2 / UR)
-    if not is_priority_1:
+    # 2. Apply Out-of-State Category Wipe
+    if domicile != "Rajasthan" and not km_override_applied and not fn_quota:
+        if backend_category != "GEN":
+            backend_category = "GEN"
+            dom_override_applied = True 
+        
+        pwd_quota = False
+        exs_priority = "None"
+        area = "Non-TSP"
+        sports_quota = False
+        widow_quota = False
+        single_woman_quota = False
+
+    # 3. Fallback for candidates who fail Priority 1 entirely (Priority 2 / UR)
+    if not is_priority_1 and not km_override_applied and not fn_quota:
         backend_category = "GEN"
         pwd_quota = False
         exs_priority = "None"
@@ -599,14 +615,17 @@ if submitted:
             with c_m1:
                 st.markdown(custom_metric(T["priority_metric"], display_priority), unsafe_allow_html=True)
             with c_m2:
-                # Displays the red "Out-of-State Override" text under the category if stripped
-                delta_val = T["outofstate_delta"] if dom_override_applied and not fn_quota else None
+                # Displays the red "Override" text under the category if stripped
+                delta_val = T["outofstate_delta"] if (dom_override_applied or km_override_applied) and not fn_quota else None
                 st.markdown(custom_metric(T["matrix_metric"], backend_category, delta_val), unsafe_allow_html=True)
 
-            # Updated dynamic warnings based on Priority and Domicile status
+            # Updated dynamic warnings based on Priority, Domicile, and KM status
             if not is_priority_1 and not km_override_applied and not fn_quota:
                 st.warning(T["p2_warning"])
-            elif domicile != "Rajasthan" and is_priority_1 and not km_override_applied and not fn_quota:
+            elif km_override_applied:
+                km_warning = "⚠️ **Kashmiri Migrant Rule Applied:** Vertical and horizontal reservations are nullified. Eligible for Unreserved (GEN) State Merit and supernumerary KM seats." if not is_hindi else "⚠️ **कश्मीरी प्रवासी नियम लागू:** ऊर्ध्वाधर और क्षैतिज आरक्षण निरस्त कर दिए गए हैं। अनारक्षित (GEN) राज्य मेरिट और अधिसंख्य KM सीटों के लिए पात्र।"
+                st.warning(km_warning)
+            elif domicile != "Rajasthan" and is_priority_1 and not fn_quota:
                 out_of_state_warning = "⚠️ **Out-of-State Rule Applied:** Candidate has Priority 1 status but is not a domicile of Rajasthan. Vertical and horizontal reservations are nullified. Eligible for Unreserved (GEN) State Merit only." if not is_hindi else "⚠️ **आउट-ऑफ-स्टेट नियम लागू:** अभ्यर्थी को प्राथमिकता 1 का दर्जा प्राप्त है लेकिन वह राजस्थान का मूल निवासी नहीं है। ऊर्ध्वाधर और क्षैतिज आरक्षण निरस्त कर दिए गए हैं। केवल अनारक्षित (GEN) राज्य मेरिट के लिए पात्र।"
                 st.warning(out_of_state_warning)
 
