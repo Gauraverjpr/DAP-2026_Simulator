@@ -9,7 +9,6 @@ import plotly.graph_objects as go
 # --- SAFE FPDF IMPORT FOR REPORT GENERATION ---
 try:
     from fpdf import FPDF
-
     FPDF_AVAILABLE = True
 except ImportError:
     FPDF_AVAILABLE = False
@@ -128,47 +127,31 @@ T = {
     "based_on_cvoc": "(Based on 1 Yr C.Voc)" if not is_hindi else "(1 वर्ष C.Voc पर आधारित)",
     "based_on_iti": "(Based on 2 Yr ITI)" if not is_hindi else "(2 वर्ष ITI पर आधारित)",
     "based_on_12th": "(Based on 12th Board)" if not is_hindi else "(12वीं बोर्ड पर आधारित)",
-    "sports_bonus_caption": "✨ Score includes **+{sports_weight} points** for Sports Category {cat_letter}." if not is_hindi else "✨ स्कोर में स्पोर्ट्स श्रेणी {cat_letter} के लिए **+{sports_weight} अंक** शामिल हैं।",
     "pure_academic_caption": "Score based purely on qualifying examination." if not is_hindi else "विशुद्ध रूप से अर्हक परीक्षा पर आधारित स्कोर।",
     "download_report_btn": "📥 Download Official DAP Report (PDF)" if not is_hindi else "📥 आधिकारिक डैप रिपोर्ट डाउनलोड करें (PDF)",
     "pdf_install_helper": "💡 To enable PDF downloads, install: `pip install fpdf2`" if not is_hindi else "💡 PDF डाउनलोड के लिए इंस्टॉल करें: `pip install fpdf2`"
 }
 
 # --- 3. DROP DOWN OPTIONS & BILINGUAL MAPS ---
-adm_options_en = ["Engineering Diploma (1st Year)", "Non-Engineering Diploma (1st Year)",
-                  "Lateral Entry (2nd Year Engineering)"]
-adm_options = adm_options_en if not is_hindi else ["इंजीनियरिंग डिप्लोमा (प्रथम वर्ष)",
-                                                   "नॉन-इंजीनियरिंग डिप्लोमा (प्रथम वर्ष)",
-                                                   "लेटरल एंट्री (द्वितीय वर्ष इंजीनियरिंग)"]
+adm_options_en = ["Engineering Diploma (1st Year)", "Non-Engineering Diploma (1st Year)", "Lateral Entry (2nd Year Engineering)"]
+adm_options = adm_options_en if not is_hindi else ["इंजीनियरिंग डिप्लोमा (प्रथम वर्ष)", "नॉन-इंजीनियरिंग डिप्लोमा (प्रथम वर्ष)", "लेटरल एंट्री (द्वितीय वर्ष इंजीनियरिंग)"]
 
 gender_options = ["M", "F", "Other"] if not is_hindi else ["M (पुरुष)", "F (महिला)", "Other (अन्य)"]
 gender_map = {"M": "M", "M (पुरुष)": "M", "F": "F", "F (महिला)": "F", "Other": "Other", "Other (अन्य)": "Other"}
 
-category_options = ["GEN", "OBC (Non-Creamy)", "SC", "ST", "MBC (Non-Creamy)", "EWS"] if not is_hindi else [
-    "GEN (सामान्य)", "OBC (नॉन-क्रीमी लेयर)", "SC (अनुसूचित जाति)", "ST (अनुसूचित जनजाति)", "MBC (नॉन-क्रीमी लेयर)",
-    "EWS (कमजोर वर्ग)"]
-category_map = {"GEN": "GEN", "GEN (सामान्य)": "GEN", "OBC (Non-Creamy)": "OBC (Non-Creamy)",
-                "OBC (नॉन-क्रीमी लेयर)": "OBC (Non-Creamy)", "SC": "SC", "SC (अनुसूचित जाति)": "SC", "ST": "ST",
-                "ST (अनुसूचित जनजाति)": "ST", "MBC (Non-Creamy)": "MBC (Non-Creamy)",
-                "MBC (नॉन-क्रीमी लेयर)": "MBC (Non-Creamy)", "EWS": "EWS", "EWS (कमजोर वर्ग)": "EWS"}
+category_options = ["GEN", "OBC (Non-Creamy)", "SC", "ST", "MBC (Non-Creamy)", "EWS"] if not is_hindi else ["GEN (सामान्य)", "OBC (नॉन-क्रीमी लेयर)", "SC (अनुसूचित जाति)", "ST (अनुसूचित जनजाति)", "MBC (नॉन-क्रीमी लेयर)", "EWS (कमजोर वर्ग)"]
+category_map = {"GEN": "GEN", "GEN (सामान्य)": "GEN", "OBC (Non-Creamy)": "OBC (Non-Creamy)", "OBC (नॉन-क्रीमी लेयर)": "OBC (Non-Creamy)", "SC": "SC", "SC (अनुसूचित जाति)": "SC", "ST": "ST", "ST (अनुसूचित जनजाति)": "ST", "MBC (Non-Creamy)": "MBC (Non-Creamy)", "MBC (नॉन-क्रीमी लेयर)": "MBC (Non-Creamy)", "EWS": "EWS", "EWS (कमजोर वर्ग)": "EWS"}
 
 area_options = ["Non-TSP", "TSP"] if not is_hindi else ["गैर-टीएसपी (Non-TSP)", "टीएसपी (TSP)"]
 area_map = {"Non-TSP": "Non-TSP", "गैर-टीएसपी (Non-TSP)": "Non-TSP", "TSP": "TSP", "टीएसपी (TSP)": "TSP"}
 
-domicile_options = ["Rajasthan", "Outside Rajasthan"] if not is_hindi else ["राजस्थान (Rajasthan)",
-                                                                            "राजस्थान से बाहर (Outside Rajasthan)"]
-domicile_map = {"Rajasthan": "Rajasthan", "राजस्थान (Rajasthan)": "Rajasthan", "Outside Rajasthan": "Outside Rajasthan",
-                "राजस्थान से बाहर (Outside Rajasthan)": "Outside Rajasthan"}
+domicile_options = ["Rajasthan", "Outside Rajasthan"] if not is_hindi else ["राजस्थान (Rajasthan)", "राजस्थान से बाहर (Outside Rajasthan)"]
+domicile_map = {"Rajasthan": "Rajasthan", "राजस्थान (Rajasthan)": "Rajasthan", "Outside Rajasthan": "Outside Rajasthan", "राजस्थान से बाहर (Outside Rajasthan)": "Outside Rajasthan"}
 
-exs_options = ["None", "EXS1 (Killed in action)", "EXS2 (Disabled in action)", "EXS3 (Died in service)",
-               "EXS4 (Disabled in service)", "EXS5 (Gallantry Awards)", "EXS6 (Wards of EXS)", "EXS7 (Wives of EXS)",
-               "EXS8 (Wards of Serving)", "EXS9 (Wives of Serving)"]
+exs_options = ["None", "EXS1 (Killed in action)", "EXS2 (Disabled in action)", "EXS3 (Died in service)", "EXS4 (Disabled in service)", "EXS5 (Gallantry Awards)", "EXS6 (Wards of EXS)", "EXS7 (Wives of EXS)", "EXS8 (Wards of Serving)", "EXS9 (Wives of Serving)"]
 sports_cat_options = ["None", "A (Absolute Priority)", "B", "C", "D", "E"]
 
-subject_list_en = ["Mathematics", "Chemistry", "Computer Science", "Electronics", "Information Technology", "Biology",
-                   "Informatics Practices", "Biotechnology", "Technical Vocational subject", "Agriculture",
-                   "Engineering Graphics", "Business Studies", "Entrepreneurship"]
-
+subject_list_en = ["Mathematics", "Chemistry", "Computer Science", "Electronics", "Information Technology", "Biology", "Informatics Practices", "Biotechnology", "Technical Vocational subject", "Agriculture", "Engineering Graphics", "Business Studies", "Entrepreneurship"]
 
 # --- 4. OFFICIAL LOGO & NAVY BLUE HEADER STYLING ---
 def get_base64_of_bin_file(bin_file):
@@ -176,33 +159,26 @@ def get_base64_of_bin_file(bin_file):
         with open(bin_file, 'rb') as f: return base64.b64encode(f.read()).decode()
     return ""
 
-
 logo_base64 = get_base64_of_bin_file("CEGLogo.png")
 logo_html = f'<img src="data:image/png;base64,{logo_base64}" class="header-logo">' if logo_base64 else ''
 
 st.markdown(f"""
 <style>
-    /* Global Navy Blue Overrides */
     .official-header {{ background: linear-gradient(135deg, #FFFFFF 0%, #F0F4F8 100%); padding: 20px 30px; border-radius: 12px; border-bottom: 4px solid {navy_blue}; border-top: 1px solid #E5E7EB; border-left: 1px solid #E5E7EB; border-right: 1px solid #E5E7EB; display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }}
     .header-text {{ display: flex; flex-direction: column; justify-content: center; }}
     .header-text h1 {{ font-family: 'Georgia', serif; font-weight: 800; margin: 0; margin-bottom: 5px; font-size: 2.6rem; color: {navy_blue} !important; line-height: 1.1; }}
     .header-text p {{ margin: 0; font-size: 1.1rem; letter-spacing: 1px; color: #4B5563 !important; font-weight: 600; }}
     .highlight {{ color: #D4AF37 !important; }}
     .header-logo {{ height: 100px; width: 100px; border-radius: 50%; object-fit: contain; }}
-
-    /* Input Highlights & Deep Navy Accents */
     div[data-baseweb="select"] > div:hover {{ border-color: {navy_blue} !important; }}
     .stTextInput input:focus, .stNumberInput input:focus, .stDateInput input:focus {{ border-color: {navy_blue} !important; box-shadow: 0 0 0 1px {navy_blue} !important; }}
     .stButton > button {{ background-color: {navy_blue} !important; color: #FFFFFF !important; border: none !important; transition: 0.2s; }}
     .stButton > button:hover {{ background-color: {navy_hover} !important; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.2); }}
     div[data-baseweb="checkbox"] input:checked + div {{ background-color: {navy_blue} !important; border-color: {navy_blue} !important; }}
-
-    /* Expanders */
     div[data-testid="stExpander"] {{ border-left: 4px solid {navy_blue} !important; }}
 </style>
 <div class="official-header"><div class="header-text"><h1>{T["app_title"]} <span class="highlight">2026</span></h1><p>{T["app_subtitle"]}</p></div>{logo_html}</div>
 """, unsafe_allow_html=True)
-
 
 # Custom Dashboard Card Component
 def custom_metric(label, value, delta=None):
@@ -225,12 +201,10 @@ def generate_pdf_report(data):
     pdf.set_auto_page_break(auto=True, margin=15)
     navy, dark_gray, light_gray = (30, 58, 138), (55, 65, 81), (243, 244, 246)
 
-    # SAFETY TEXT CLEANER
     def clean_pdf_text(t):
-        raw = str(t).replace('✅', '').replace('🔹', '').replace('🛑', '').replace('⚠️', '').replace('✨', '').strip()
+        raw = str(t).replace('✅', '').replace('🔹', '').replace('🛑', '').replace('⚠️', '').replace('✨', '').replace('🏅', '').strip()
         return raw.encode('latin-1', 'replace').decode('latin-1')
 
-    # Header
     pdf.set_fill_color(*navy)
     pdf.rect(0, 0, 210, 42, 'F')
     pdf.set_text_color(255, 255, 255)
@@ -242,7 +216,6 @@ def generate_pdf_report(data):
     pdf.cell(0, 6, 'DIPLOMA ADMISSION PROCESS - ELIGIBILITY REPORT', ln=True, align='C')
     pdf.ln(22)
 
-    # Profile
     pdf.set_text_color(*navy)
     pdf.set_font('Helvetica', 'B', 15)
     pdf.cell(0, 10, 'TENTATIVE EVALUATION SUMMARY', ln=True)
@@ -283,7 +256,6 @@ def generate_pdf_report(data):
     pdf.cell(70, 6, f"{data.get('entered_perc', 0.0):.2f}%", ln=True)
     pdf.ln(8)
 
-    # Results Box
     box_start_y = pdf.get_y()
     pdf.set_fill_color(*light_gray)
     pdf.rect(10, box_start_y, 190, 35, 'F')
@@ -305,7 +277,6 @@ def generate_pdf_report(data):
     pdf.set_font('Helvetica', 'B', 10)
     pdf.cell(130, 6, ', '.join([clean_pdf_text(g) for g in data.get('eligible_groups')]), ln=True)
 
-    # Cohorts
     pdf.set_y(box_start_y + 40)
     pdf.set_text_color(*navy)
     pdf.set_font('Helvetica', 'B', 13)
@@ -318,7 +289,6 @@ def generate_pdf_report(data):
     for rank in data.get('ranks', []):
         pdf.cell(0, 6, f"- {clean_pdf_text(rank)}", ln=True)
 
-    # Disclaimer
     pdf.ln(6)
     pdf.set_fill_color(254, 243, 199)
     pdf.set_text_color(180, 83, 9)
@@ -331,7 +301,6 @@ def generate_pdf_report(data):
 
     return bytes(pdf.output())
 
-
 # --- 6. INPUT LAYOUT (Dynamic & Reactive) ---
 st.markdown(f"### {T['eval_details_header']}")
 
@@ -340,14 +309,11 @@ with st.expander(T["step1_title"], expanded=True):
     with c1:
         name = st.text_input(T["cand_name"], "")
     with c2:
-        dob = st.date_input(T["dob"], value=datetime(2005, 1, 1), min_value=datetime(1970, 1, 1),
-                            max_value=datetime.today(), help=T["dob_help"])
+        dob = st.date_input(T["dob"], value=datetime(2005, 1, 1), min_value=datetime(1970, 1, 1), max_value=datetime.today(), help=T["dob_help"])
     with c3:
         sel_adm_type = st.selectbox(T["adm_type"], adm_options)
 
     st.markdown("---")
-
-    # Dynamic Qualifying Exam Logic based on Admission Pathway
     adm_idx = adm_options.index(sel_adm_type)
     sel_adm_type_en = adm_options_en[adm_idx]
     is_lateral = "Lateral Entry" in sel_adm_type_en
@@ -357,12 +323,10 @@ with st.expander(T["step1_title"], expanded=True):
         qual_opts = ["10th Board"] if not is_hindi else ["10वीं बोर्ड"]
     elif sel_adm_type_en == "Non-Engineering Diploma (1st Year)":
         qual_opts_en = ["Diploma (Non-Engineering)", "10th Board"]
-        qual_opts = ["Diploma (Non-Engineering)", "10th Board"] if not is_hindi else ["डिप्लोमा (नॉन-इंजीनियरिंग)",
-                                                                                      "10वीं बोर्ड"]
+        qual_opts = ["Diploma (Non-Engineering)", "10th Board"] if not is_hindi else ["डिप्लोमा (नॉन-इंजीनियरिंग)", "10वीं बोर्ड"]
     else:
         qual_opts_en = ["Diploma (Engineering)", "10th + 1 Yr C.Voc", "10th + 2 Yr ITI", "12th Board"]
-        qual_opts = qual_opts_en if not is_hindi else ["डिप्लोमा (इंजीनियरिंग)", "10वीं + 1 वर्ष C.Voc",
-                                                       "10वीं + 2 वर्ष ITI", "12वीं बोर्ड"]
+        qual_opts = qual_opts_en if not is_hindi else ["डिप्लोमा (इंजीनियरिंग)", "10वीं + 1 वर्ष C.Voc", "10वीं + 2 वर्ष ITI", "12वीं बोर्ड"]
 
     c4, c5 = st.columns(2)
     with c4:
@@ -371,10 +335,8 @@ with st.expander(T["step1_title"], expanded=True):
 
     entered_perc = 0.0
     selected_subs = []
-
     with c5:
-        entered_perc = st.number_input(T["perc_qual"], min_value=0.0, max_value=100.0, value=75.0, step=0.1,
-                                       help=T["cutoff_help"])
+        entered_perc = st.number_input(T["perc_qual"], min_value=0.0, max_value=100.0, value=75.0, step=0.1, help=T["cutoff_help"])
 
     if is_lateral and "12" in qual_exam_en:
         st.markdown(f"##### {T['subject_12_title']}")
@@ -418,7 +380,6 @@ with st.expander(T["step2_title"], expanded=True):
         st.warning("⚠️ **Reservations Disabled:** Candidate is out-of-state or applying under Kashmiri Migrant quota." if not is_hindi else "⚠️ **आरक्षण अक्षम:** अभ्यर्थी आउट-ऑफ-स्टेट है या कश्मीरी प्रवासी कोटे के तहत आवेदन कर रहा है।")
 
     st.markdown("---")
-
     c7, c8 = st.columns(2)
     with c7:
         sel_gender = st.selectbox(T["gender"], gender_options, help=T["gender_help"])
@@ -436,7 +397,6 @@ with st.expander(T["step3_title"], expanded=False):
     c9, c10 = st.columns(2)
     with c9:
         pwd_quota = st.checkbox(T["pwd_label"], help=T["pwd_help"], disabled=(fn_quota or is_locked_out))
-        # TFWS is the ONLY quota not affected by the state lockout
         income_less_8l = st.checkbox(T["tfws_label"], help=T["tfws_help"], disabled=fn_quota)
         
     with c10:
@@ -444,10 +404,8 @@ with st.expander(T["step3_title"], expanded=False):
         exs_priority = sel_exs.split(" ")[0] if sel_exs != "None" and sel_exs != "कोई नहीं" else "None"
         
         sports_quota = st.checkbox(T["sports_label"], disabled=(fn_quota or is_locked_out))
-        sel_sports_cat = st.selectbox(T["sports_cat_label"], sports_cat_options,
-                                      disabled=(not sports_quota or fn_quota or is_locked_out))
-        sports_cat = sel_sports_cat.split(" ")[
-            0] if sel_sports_cat != "None" and sel_sports_cat != "कोई नहीं" else "None"
+        sel_sports_cat = st.selectbox(T["sports_cat_label"], sports_cat_options, disabled=(not sports_quota or fn_quota or is_locked_out))
+        sports_cat = sel_sports_cat.split(" ")[0] if sel_sports_cat != "None" and sel_sports_cat != "कोई नहीं" else "None"
 
     widow_quota, single_woman_quota = False, False
     if gender in ["F", "Other", "F (महिला)", "Other (अन्य)"]:
@@ -467,7 +425,6 @@ if submitted:
     st.divider()
     st.markdown(f"## {T['dashboard_title']}")
 
-    # --- PRIORITY 1 vs PRIORITY 2 LOGIC ---
     if is_lateral:
         is_priority_1 = (domicile == "Rajasthan") or passed_raj or govt_emp or psu_emp or passed_bter or passed_iti_raj
     else:
@@ -477,7 +434,7 @@ if submitted:
     km_override_applied = False
     dom_override_applied = False
 
-    # 1. Apply Kashmiri Migrant Category Wipe (Does NOT kill Priority 1 if they earned it)
+    # 1. Apply Kashmiri Migrant Category Wipe 
     if km_quota and not fn_quota:
         backend_category = "GEN"
         km_override_applied = True
@@ -493,7 +450,6 @@ if submitted:
         if backend_category != "GEN":
             backend_category = "GEN"
             dom_override_applied = True 
-        
         pwd_quota = False
         exs_priority = "None"
         area = "Non-TSP"
@@ -501,7 +457,7 @@ if submitted:
         widow_quota = False
         single_woman_quota = False
 
-    # 3. Fallback for candidates who fail Priority 1 entirely (Priority 2 / UR)
+    # 3. Fallback for Priority 2
     if not is_priority_1 and not km_override_applied and not fn_quota:
         backend_category = "GEN"
         pwd_quota = False
@@ -519,14 +475,18 @@ if submitted:
         st.error(f"{T['disq_cutoff']}\n\n{T['require_marks']} Scored: {entered_perc}%.")
     else:
         # SPORTS BONUS ADDITION
-        effective_score = entered_perc
+        effective_score = float(entered_perc)
         sports_bonus_applied = False
         sports_weight = 0.0
         cat_letter = "None"
+        sports_a_triggered = False
 
         if is_priority_1 and sports_quota and sports_cat != "None" and not fn_quota:
             cat_letter = sports_cat
-            if cat_letter in ["A", "B"]:
+            if cat_letter == "A":
+                sports_weight = 7.0
+                sports_a_triggered = True
+            elif cat_letter == "B":
                 sports_weight = 7.0
             elif cat_letter == "C":
                 sports_weight = 5.0
@@ -562,10 +522,8 @@ if submitted:
 
         st.success(f"✅ **{T['group_eligible_msg']}** {', '.join(eligible_groups)}")
 
-        # LATERAL MATRIX PDF DOWNLOAD
         if is_lateral and "12" in qual_exam_en:
-            with st.expander("📄 View Lateral Entry Qualification Matrix / लेटरल एंट्री योग्यता मैट्रिक्स देखें",
-                             expanded=False):
+            with st.expander("📄 View Lateral Entry Qualification Matrix / लेटरल एंट्री योग्यता मैट्रिक्स देखें", expanded=False):
                 st.markdown("""
                 **Official 10+2 Qualification Matrix (Lateral Entry):**
                 * **PCM (Physics, Chemistry, Maths):** Eligible for ALL Engineering Branches.
@@ -576,9 +534,7 @@ if submitted:
                 if os.path.exists(pdf_filename):
                     with open(pdf_filename, "rb") as pdf_file:
                         pdf_b64 = base64.b64encode(pdf_file.read()).decode()
-                        st.markdown(
-                            f'''<a href="data:application/pdf;base64,{pdf_b64}" download="{pdf_filename}" style="display: block; padding: 0.6rem 1rem; color: #FFFFFF; background-color: {navy_blue}; border-radius: 6px; text-decoration: none; font-weight: 600; text-align: center; margin-top: 10px;">📥 Download Detailed 10+2 Qualification Matrix</a>''',
-                            unsafe_allow_html=True)
+                        st.markdown(f'''<a href="data:application/pdf;base64,{pdf_b64}" download="{pdf_filename}" style="display: block; padding: 0.6rem 1rem; color: #FFFFFF; background-color: {navy_blue}; border-radius: 6px; text-decoration: none; font-weight: 600; text-align: center; margin-top: 10px;">📥 Download Detailed 10+2 Qualification Matrix</a>''', unsafe_allow_html=True)
 
         # MERIT TIER GENERATION
         if sel_adm_type_en == "Engineering Diploma (1st Year)":
@@ -615,11 +571,10 @@ if submitted:
             with c_m1:
                 st.markdown(custom_metric(T["priority_metric"], display_priority), unsafe_allow_html=True)
             with c_m2:
-                # Displays the red "Override" text under the category if stripped
                 delta_val = T["outofstate_delta"] if (dom_override_applied or km_override_applied) and not fn_quota else None
                 st.markdown(custom_metric(T["matrix_metric"], backend_category, delta_val), unsafe_allow_html=True)
 
-            # Updated dynamic warnings based on Priority, Domicile, and KM status
+            # Warning Management
             if not is_priority_1 and not km_override_applied and not fn_quota:
                 st.warning(T["p2_warning"])
             elif km_override_applied:
@@ -629,9 +584,14 @@ if submitted:
                 out_of_state_warning = "⚠️ **Out-of-State Rule Applied:** Candidate has Priority 1 status but is not a domicile of Rajasthan. Vertical and horizontal reservations are nullified. Eligible for Unreserved (GEN) State Merit only." if not is_hindi else "⚠️ **आउट-ऑफ-स्टेट नियम लागू:** अभ्यर्थी को प्राथमिकता 1 का दर्जा प्राप्त है लेकिन वह राजस्थान का मूल निवासी नहीं है। ऊर्ध्वाधर और क्षैतिज आरक्षण निरस्त कर दिए गए हैं। केवल अनारक्षित (GEN) राज्य मेरिट के लिए पात्र।"
                 st.warning(out_of_state_warning)
 
+            # Sports A Dynamic Fallback Warning
+            if sports_a_triggered:
+                sports_a_msg_en = f"**Note:** Priority: Sports A is capped at 5% of total course seats. If candidate does not secure a Sports A seat, he/she will fall back to **Priority: {tier_str}** with an Effective Academic Score of {effective_score:.2f}."
+                sports_a_msg_hi = f"**नोट:** प्राथमिकता: Sports A कुल कोर्स सीटों के 5% तक ही सीमित है। यदि अभ्यर्थी Sports A सीट प्राप्त नहीं कर पाता है, तो वह **Priority: {tier_str}** पर वापस आ जाएगा, जिसमें प्रभावी शैक्षणिक स्कोर {effective_score:.2f} होगा।"
+                st.info(sports_a_msg_hi if is_hindi else sports_a_msg_en)
+
             st.markdown(f"### {T['projected_lists_title']}")
 
-            # EXCLUSIVE POOL OVERRIDES
             if fn_quota:
                 st.error(T["fn_exclusive_error"])
                 ranks = ["🔹 `dap_fn` (Foreign National/OCI/Gulf Quota - 15% Supernumerary)"]
@@ -645,16 +605,14 @@ if submitted:
                     if backend_category != "GEN":
                         clean_cat = backend_category.split(" ")[0].lower()
                         ranks.append(f"🔹 `dap_{clean_cat}` (Category {backend_category})")
-                        if gender in ["F", "F (महिला)"]: ranks.append(
-                            f"🔹 `dap_{clean_cat}f` (Category {backend_category} Female)")
+                        if gender in ["F", "F (महिला)"]: ranks.append(f"🔹 `dap_{clean_cat}f` (Category {backend_category} Female)")
                     if backend_category == "ST" and area == "TSP":
                         ranks.append("🔹 `dap_tsp` (TSP Quota)")
                     if pwd_quota: ranks.append("🔹 `dap_pwd` (Persons with Special Ability - 5%)")
                     if exs_priority != "None": ranks.append(f"🔹 `dap_exs` (Ex-Servicemen - {exs_priority})")
                     if widow_quota: ranks.append("🔹 `dap_widow` (Widow/Divorced Quota - 10%)")
                     if single_woman_quota: ranks.append("🔹 `dap_singlew` (Single Woman Dependent Quota - 10%)")
-                    if sports_quota and sports_cat != "None": ranks.append(
-                        f"🔹 `dap_sports` (Sports Category {sports_cat})")
+                    if sports_quota and sports_cat != "None": ranks.append(f"🔹 `dap_sports` (Sports Category {sports_cat})")
                 else:
                     ranks.append("🔹 `dap_ur` (Priority 2 / Unreserved Quota)")
 
@@ -667,8 +625,7 @@ if submitted:
             if FPDF_AVAILABLE:
                 pdf_p_text = "Priority 1: State Eligible" if is_priority_1 else "Priority 2: Out-of-State / UR"
                 pdf_display_priority = f"{tier_str} | ({pdf_p_text})"
-                pdf_eligible_groups = ["ALL Diploma Branches"] if eligible_groups[0] == T[
-                    "all_branches"] else eligible_groups
+                pdf_eligible_groups = ["ALL Diploma Branches"] if eligible_groups[0] == T["all_branches"] else eligible_groups
 
                 pdf_payload = {
                     'name': name if name.strip() else "Candidate",
@@ -685,8 +642,7 @@ if submitted:
                 }
                 try:
                     pdf_data = generate_pdf_report(pdf_payload)
-                    st.download_button(label=T["download_report_btn"], data=pdf_data, file_name=f"DAP_2026_Report.pdf",
-                                       mime="application/pdf", use_container_width=True)
+                    st.download_button(label=T["download_report_btn"], data=pdf_data, file_name=f"DAP_2026_Report.pdf", mime="application/pdf", use_container_width=True)
                 except Exception as e:
                     st.error(f"Error compiling PDF: {e}")
             else:
@@ -695,14 +651,14 @@ if submitted:
         with dash_col2:
             gauge_full_title = f"{T['eff_academic_score']}<br><span style='font-size:14px;color:#6B7280'>{gauge_suffix}</span>"
             fig = go.Figure(go.Indicator(
-                mode="gauge+number",
+                mode="gauge+number+delta" if sports_bonus_applied else "gauge+number",
                 value=effective_score,
+                delta={'reference': float(entered_perc), 'position': "top", 'valueformat': '.2f'} if sports_bonus_applied else None,
                 domain={'x': [0, 1], 'y': [0, 1]},
                 title={'text': gauge_full_title, 'font': {'size': 22, 'color': theme_axis_color}},
-                number={'font': {'color': theme_axis_color}},
+                number={'font': {'color': theme_axis_color}, 'valueformat': '.2f', 'suffix': '%'},
                 gauge={
-                    'axis': {'range': [None, 110], 'tickwidth': 1, 'tickcolor': theme_axis_color,
-                             'tickfont': {'color': theme_axis_color}},
+                    'axis': {'range': [None, 110], 'tickwidth': 1, 'tickcolor': theme_axis_color, 'tickfont': {'color': theme_axis_color}},
                     'bar': {'color': navy_blue, 'thickness': 0.75},
                     'bgcolor': "rgba(0,0,0,0)",
                     'borderwidth': 2,
@@ -715,11 +671,12 @@ if submitted:
                 }
             ))
 
-            fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", height=350,
-                              margin=dict(l=20, r=20, t=110, b=20), font=dict(color=theme_axis_color))
+            fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", height=350, margin=dict(l=20, r=20, t=110, b=20), font=dict(color=theme_axis_color))
             st.plotly_chart(fig, use_container_width=True, theme=chart_theme)
 
             if sports_bonus_applied:
-                st.caption(T["sports_bonus_caption"].format(sports_weight=sports_weight, cat_letter=cat_letter))
+                sports_bonus_caption_en = f"✨ Score includes **+{sports_weight} points** for Sports Category {cat_letter}."
+                sports_bonus_caption_hi = f"✨ स्कोर में स्पोर्ट्स श्रेणी {cat_letter} के लिए **+{sports_weight} अंक** शामिल हैं।"
+                st.caption(sports_bonus_caption_hi if is_hindi else sports_bonus_caption_en)
             else:
                 st.caption(T["pure_academic_caption"])
