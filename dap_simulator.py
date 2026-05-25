@@ -656,7 +656,7 @@ if submitted:
                 delta={'reference': float(entered_perc), 'position': "top", 'valueformat': '.2f'} if sports_bonus_applied else None,
                 domain={'x': [0, 1], 'y': [0, 1]},
                 title={'text': gauge_full_title, 'font': {'size': 22, 'color': theme_axis_color}},
-                number={'font': {'color': theme_axis_color}, 'valueformat': '.2f', 'suffix': '%'},
+                number={'font': {'color': theme_axis_color}, 'valueformat': '.2f'},
                 gauge={
                     'axis': {'range': [None, 110], 'tickwidth': 1, 'tickcolor': theme_axis_color, 'tickfont': {'color': theme_axis_color}},
                     'bar': {'color': navy_blue, 'thickness': 0.75},
