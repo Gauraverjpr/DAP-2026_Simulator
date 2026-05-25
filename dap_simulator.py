@@ -214,6 +214,8 @@ def custom_metric(label, value, delta=None):
         {delta_html}
     </div>
     """
+
+# DISCLAIMER ADDED HERE
 st.warning(f"**{T['disclaimer_title']}** {T['disclaimer_text']}")
 
 # --- 5. PDF GENERATION ENGINE ---
@@ -462,15 +464,36 @@ if submitted:
 
     backend_category = category
     km_override_applied = False
+    dom_override_applied = False
 
     if km_quota and not fn_quota:
         is_priority_1 = False
         backend_category = "GEN"
         km_override_applied = True
 
+    # --- NEW RULE: RESERVATION NULLIFICATION FOR OUTSIDE RAJASTHAN ---
+    if domicile != "Rajasthan" and not km_override_applied:
+        if backend_category != "GEN":
+            backend_category = "GEN"
+            dom_override_applied = True # Flags the UI to show the "Out-of-State Override" warning
+        
+        # Nullify all horizontal quotas (TFWS is unaffected as it is handled separately)
+        pwd_quota = False
+        exs_priority = "None"
+        area = "Non-TSP"
+        sports_quota = False
+        widow_quota = False
+        single_woman_quota = False
+
+    # Fallback for candidates who fail Priority 1 entirely (Priority 2 / UR)
     if not is_priority_1:
         backend_category = "GEN"
-        pwd_quota, exs_priority, area, sports_quota, widow_quota, single_woman_quota = False, "None", "Non-TSP", False, False, False
+        pwd_quota = False
+        exs_priority = "None"
+        area = "Non-TSP"
+        sports_quota = False
+        widow_quota = False
+        single_woman_quota = False
 
     req_cutoff = 35.0
     is_eligible_marks = entered_perc >= req_cutoff
@@ -576,12 +599,16 @@ if submitted:
             with c_m1:
                 st.markdown(custom_metric(T["priority_metric"], display_priority), unsafe_allow_html=True)
             with c_m2:
-                delta_val = T[
-                    "outofstate_delta"] if not is_priority_1 and not km_override_applied and not fn_quota else None
+                # Displays the red "Out-of-State Override" text under the category if stripped
+                delta_val = T["outofstate_delta"] if dom_override_applied and not fn_quota else None
                 st.markdown(custom_metric(T["matrix_metric"], backend_category, delta_val), unsafe_allow_html=True)
 
+            # Updated dynamic warnings based on Priority and Domicile status
             if not is_priority_1 and not km_override_applied and not fn_quota:
                 st.warning(T["p2_warning"])
+            elif domicile != "Rajasthan" and is_priority_1 and not km_override_applied and not fn_quota:
+                out_of_state_warning = "⚠️ **Out-of-State Rule Applied:** Candidate has Priority 1 status but is not a domicile of Rajasthan. Vertical and horizontal reservations are nullified. Eligible for Unreserved (GEN) State Merit only." if not is_hindi else "⚠️ **आउट-ऑफ-स्टेट नियम लागू:** अभ्यर्थी को प्राथमिकता 1 का दर्जा प्राप्त है लेकिन वह राजस्थान का मूल निवासी नहीं है। ऊर्ध्वाधर और क्षैतिज आरक्षण निरस्त कर दिए गए हैं। केवल अनारक्षित (GEN) राज्य मेरिट के लिए पात्र।"
+                st.warning(out_of_state_warning)
 
             st.markdown(f"### {T['projected_lists_title']}")
 
