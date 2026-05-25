@@ -214,7 +214,7 @@ def custom_metric(label, value, delta=None):
         {delta_html}
     </div>
     """
-
+st.warning(f"**{T['disclaimer_title']}** {T['disclaimer_text']}")
 
 # --- 5. PDF GENERATION ENGINE ---
 def generate_pdf_report(data):
